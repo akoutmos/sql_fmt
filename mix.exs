@@ -5,7 +5,7 @@ defmodule SqlFmt.MixProject do
     [
       app: :sql_fmt,
       name: "SqlFmt",
-      version: "0.1.0",
+      version: project_version(),
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/akoutmos/sql_fmt",
@@ -31,6 +31,12 @@ defmodule SqlFmt.MixProject do
     ]
   end
 
+  defp project_version do
+    "VERSION"
+    |> File.read!()
+    |> String.trim()
+  end
+
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
@@ -46,6 +52,7 @@ defmodule SqlFmt.MixProject do
     [
       # Production deps
       {:rustler_precompiled, "~> 0.4"},
+      {:rustler, ">= 0.0.0", optional: true},
 
       # Dev deps
       {:doctor, "~> 0.21", only: :dev},
@@ -72,7 +79,8 @@ defmodule SqlFmt.MixProject do
   defp package do
     [
       name: "sql_fmt",
-      files: ~w(lib mix.exs README.md LICENSE CHANGELOG.md native),
+      files:
+        ~w(lib mix.exs README.md LICENSE CHANGELOG.md native/sql_formatter/.cargo native/sql_formatter/src native/sql_formatter/Cargo.* VERSION checksum-*.exs),
       licenses: ["MIT"],
       maintainers: ["Alex Koutmos"],
       links: %{

@@ -24,3 +24,6 @@ sql_fmt-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Shared objects build by Rust.
+*.so
