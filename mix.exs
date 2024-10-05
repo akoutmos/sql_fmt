@@ -5,7 +5,7 @@ defmodule SqlFmt.MixProject do
     [
       app: :sql_fmt,
       name: "SqlFmt",
-      version: project_version(),
+      version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/akoutmos/sql_fmt",
@@ -29,12 +29,6 @@ defmodule SqlFmt.MixProject do
       docs: docs(),
       aliases: aliases()
     ]
-  end
-
-  defp project_version do
-    "VERSION"
-    |> File.read!()
-    |> String.trim()
   end
 
   # Run "mix help compile.app" to learn about applications.
