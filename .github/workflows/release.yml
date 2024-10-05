@@ -55,7 +55,7 @@ jobs:
         shell: bash
         run: |
           # Get the project version from mix.exs
-          cat VERSION >> $GITHUB_ENV
+          echo "PROJECT_VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
