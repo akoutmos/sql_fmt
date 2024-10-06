@@ -13,8 +13,8 @@ defmodule SqlFmt do
     Native.format(query, format_options)
   end
 
-  # def format_query_with_params(query, query_params, fmt_opts \\ []) do
-  #   format_options = FormatOptions.new(fmt_opts)
-  #   Native.format(query, query_params, format_options)
-  # end
+  def format_query_with_params(query, query_params, fmt_opts \\ []) do
+    format_options = FormatOptions.new(fmt_opts)
+    Native.format(query, query_params, format_options)
+  end
 end

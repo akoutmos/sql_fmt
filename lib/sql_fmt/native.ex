@@ -14,5 +14,5 @@ defmodule SqlFmt.Native do
     version: version
 
   def format(_query, _format_options), do: :erlang.nif_error(:nif_not_loaded)
-  # def format(_query, _query_params, _format_options), do: :erlang.nif_error(:nif_not_loaded)
+  def format(_query, _query_params, _format_options), do: :erlang.nif_error(:nif_not_loaded)
 end
