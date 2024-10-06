@@ -33,7 +33,6 @@
 - [Installation](#installation)
 - [Example Output](#example-output)
 - [Supporting SqlFmt](#supporting-ectodbg)
-- [Setting Up SqlFmt](#setting-up-ectodbg)
 - [Attribution](#attribution)
 
 ## Installation
@@ -53,14 +52,46 @@ Documentation can be found at [https://hexdocs.pm/sql_fmt](https://hexdocs.pm/sq
 
 ## Example Output
 
-After setting up SqlFmt in your application you can expect the following output from your Ecto queries when using the
-SqlFmt helpers:
+After setting up SqlFmt in your application you can use the SqlFmt functions in order to format queries. Here are a
+couple examples of queries with having parameters inline and with passing in the parameters separately:
 
-<img align="center" src="guides/images/example_output.png" alt="SqlFmt example output">
+```elixir
+iex(1)> {:ok, formatted_sql} = SqlFmt.format_query("select * from businesses where id in ('c6f5c5f1-a1fc-4c9a-91f7-6aa40f1e233d', 'f339d4ce-96b6-4440-a541-28a0fb611139');")
+{:ok, "SELECT\n  *\nFROM\n  businesses\nWHERE\n  id IN (\n    'c6f5c5f1-a1fc-4c9a-91f7-6aa40f1e233d',\n    'f339d4ce-96b6-4440-a541-28a0fb611139'\n  );"}
+
+iex(2)> IO.puts(formatted_sql)
+SELECT
+  *
+FROM
+  businesses
+WHERE
+  id IN (
+    'c6f5c5f1-a1fc-4c9a-91f7-6aa40f1e233d',
+    'f339d4ce-96b6-4440-a541-28a0fb611139'
+  );
+:ok
+```
+
+```elixir
+iex(1)> {:ok, formatted_sql} = SqlFmt.format_query_with_params("select * from help where help.\"col\" in $1;", ["'asdf'"])
+{:ok, "SELECT\n  *\nFROM\n  help\nWHERE\n  help.\"col\" IN 'asdf';"}
+
+iex(2)> IO.puts(formatted_sql)
+SELECT
+  *
+FROM
+  help
+WHERE
+  help."col" IN 'asdf';
+:ok
+```
+
+Be sure to checkout the HexDocs as you can also provide formatting options to the functions to tailor the output to your
+liking.
 
 ## Supporting SqlFmt
 
-If you rely on this library help you debug your Ecto queries, it would much appreciated if you can give back
+If you rely on this library help you debug your Ecto/SQL queries, it would much appreciated if you can give back
 to the project in order to help ensure its continued development.
 
 Checkout my [GitHub Sponsorship page](https://github.com/sponsors/akoutmos) if you want to help out!
@@ -82,11 +113,6 @@ Checkout my [GitHub Sponsorship page](https://github.com/sponsors/akoutmos) if y
 <a href="https://github.com/sponsors/akoutmos/sponsorships?sponsor=akoutmos&tier_id=17615">
   <img align="center" height="125" src="guides/images/your_logo_here.png" alt="Support the project">
 </a>
-
-## Setting Up SqlFmt
-
-After adding `{:sql_fmt, "~> 0.1.0"}` in your `mix.exs` file and running `mix deps.get`, open your `repo.ex` file and
-add the following contents:
 
 ## Attribution
 
