@@ -6,7 +6,7 @@ on:
       - "*"
 
 env:
-  RUSTLER_FORCE_BUILD: "1"
+  RUSTLER_FORCE_BUILD: "true"
 
 jobs:
   build_release:
