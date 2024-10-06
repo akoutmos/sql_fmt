@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  Format and pretty print raw SQL queries
+  Format and pretty print SQL queries
 </p>
 
 <p align="center">
