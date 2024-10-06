@@ -3,6 +3,7 @@ name: SqlFmt CI
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SHELL: sh
+  RUSTLER_FORCE_BUILD: "true"
 
 on:
   push:
