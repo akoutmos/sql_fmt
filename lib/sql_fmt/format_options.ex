@@ -31,6 +31,9 @@ defmodule SqlFmt.FormatOptions do
           ignore_case_convert: list(String.t())
         }
 
+  @doc """
+  Create an instance of the `FormatOptions` struct.
+  """
   @spec new(keyword) :: t
   def new(opts \\ []) do
     struct!(__MODULE__, opts)

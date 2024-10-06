@@ -1,7 +1,5 @@
 defmodule SqlFmt.Native do
-  @moduledoc """
-  Docs placeholder
-  """
+  @moduledoc false
 
   version = Mix.Project.config()[:version]
 
@@ -13,6 +11,7 @@ defmodule SqlFmt.Native do
     targets: Enum.uniq(["aarch64-unknown-linux-musl" | RustlerPrecompiled.Config.default_targets()]),
     version: version
 
+  @doc false
   def format(_query, _format_options), do: :erlang.nif_error(:nif_not_loaded)
   def format(_query, _query_params, _format_options), do: :erlang.nif_error(:nif_not_loaded)
 end
