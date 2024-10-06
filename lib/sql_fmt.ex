@@ -1,17 +1,20 @@
 defmodule SqlFmt do
   @moduledoc """
-  Docs placeholder
+  This library provides an Elixir wrapper around the Rust
+  [sqlformat](https://github.com/shssoichiro/sqlformat-rs) library. This allows you
+  to efficiently format and pretty print SQL queries.
   """
 
-  version = Mix.Project.config()[:version]
+  alias SqlFmt.FormatOptions
+  alias SqlFmt.Native
 
-  use RustlerPrecompiled,
-    otp_app: :sql_fmt,
-    crate: :sql_formatter,
-    base_url: "https://github.com/akoutmos/sql_fmt/releases/download/v#{version}",
-    force_build: System.get_env("RUSTLER_PRECOMPILATION_EXAMPLE_BUILD") in ["1", "true"],
-    targets: Enum.uniq(["aarch64-unknown-linux-musl" | RustlerPrecompiled.Config.default_targets()]),
-    version: version
+  def format_query(query, fmt_opts \\ []) do
+    format_options = FormatOptions.new(fmt_opts)
+    Native.format(query, format_options)
+  end
 
-  def format(_sql_query), do: :erlang.nif_error(:nif_not_loaded)
+  # def format_query_with_params(query, query_params, fmt_opts \\ []) do
+  #   format_options = FormatOptions.new(fmt_opts)
+  #   Native.format(query, query_params, format_options)
+  # end
 end

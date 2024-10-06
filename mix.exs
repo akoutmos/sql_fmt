@@ -80,7 +80,7 @@ defmodule SqlFmt.MixProject do
     [
       name: "sql_fmt",
       files:
-        ~w(lib mix.exs README.md LICENSE CHANGELOG.md native/sql_formatter/.cargo native/sql_formatter/src native/sql_formatter/Cargo.* VERSION checksum-*.exs),
+        ~w(lib mix.exs README.md LICENSE CHANGELOG.md native/sql_fmt_nif/.cargo native/sql_fmt_nif/src native/sql_fmt_nif/Cargo.* VERSION checksum-*.exs),
       licenses: ["MIT"],
       maintainers: ["Alex Koutmos"],
       links: %{
