@@ -32,7 +32,7 @@
 
 - [Installation](#installation)
 - [Example Output](#example-output)
-- [Supporting SqlFmt](#supporting-ectodbg)
+- [Supporting SqlFmt](#supporting-sqlfmt)
 - [Attribution](#attribution)
 
 ## Installation
