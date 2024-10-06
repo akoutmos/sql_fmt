@@ -17,11 +17,6 @@ defmodule SqlFmt do
   def format_query_with_params(query, query_params, fmt_opts \\ []) do
     format_options = FormatOptions.new(fmt_opts)
 
-    stringified_query_params =
-      Enum.map(query_params, fn value ->
-        PrintableParameter.to_expression(value)
-      end)
-
-    Native.format(query, stringified_query_params, format_options)
+    Native.format(query, query_params, format_options)
   end
 end
