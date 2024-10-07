@@ -50,9 +50,9 @@ end
 
 Documentation can be found at [https://hexdocs.pm/sql_fmt](https://hexdocs.pm/sql_fmt).
 
-## Example Output
+## Usage
 
-After setting up SqlFmt in your application you can use the SqlFmt functions in order to format queries. Here are a
+After setting up `SqlFmt` in your application you can use the `SqlFmt` functions in order to format queries. Here are a
 couple examples of queries with having parameters inline and with passing in the parameters separately:
 
 ```elixir
@@ -88,6 +88,27 @@ WHERE
 
 Be sure to checkout the HexDocs as you can also provide formatting options to the functions to tailor the output to your
 liking.
+
+## Mix task
+
+A `mix sql_fmt.format` task is provided that can be used in order to
+format a set of files, similarly to `mix format`.
+
+```bash
+# you can pass one or more paths or patterns to be formatted
+$ mix sql_fmt.format query.sql "sql/**/*.sql.ex"
+
+# you can pass the --check-formatted option to make it raise if any
+# file is not formatted
+$ mix sql_fmt.format --check-formatted "sql/**/*.sql.ex"
+```
+
+For more details on the supported options check the help:
+
+```bash
+$ mix help sql_fmt.format
+```
+
 
 ## Supporting SqlFmt
 
