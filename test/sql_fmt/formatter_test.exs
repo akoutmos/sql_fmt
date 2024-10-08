@@ -134,6 +134,56 @@ defmodule SqlFmt.FormatterTest do
     end)
   end
 
+  test "with single-line ~SQL sigil", context do
+    in_tmp(context.test, fn ->
+      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [extensions: [".sqlite"]])
+
+      elixir_fixture("query.exs", """
+      import SqlFmt.Helpers
+
+      query = ~SQL"select * from users"
+      """)
+
+      assert Format.run(["query.exs"]) == :ok
+
+      assert File.read!("query.exs") == """
+             import SqlFmt.Helpers
+
+             query = ~SQL"SELECT * FROM users"
+             """
+    end)
+  end
+
+  test "with multi-line ~SQL sigil", context do
+    in_tmp(context.test, fn ->
+      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [extensions: [".sqlite"]])
+
+      elixir_fixture("query.exs", ~s'''
+      import SqlFmt.Helpers
+
+      query = ~SQL"""
+        select * from users
+        where age > 23
+        """
+      ''')
+
+      assert Format.run(["query.exs"]) == :ok
+
+      assert File.read!("query.exs") == ~s'''
+             import SqlFmt.Helpers
+
+             query = ~SQL"""
+             SELECT
+               *
+             FROM
+               users
+             WHERE
+               age > 23
+             """
+             '''
+    end)
+  end
+
   def in_tmp(which, function) do
     path = tmp_path(which)
     File.rm_rf!(path)
@@ -155,5 +205,9 @@ defmodule SqlFmt.FormatterTest do
   defp sql_fixture(path, query \\ "select * from users") do
     File.mkdir_p!(Path.dirname(path))
     File.write!(path, query)
+  end
+
+  defp elixir_fixture(path, content) do
+    File.write!(path, content)
   end
 end

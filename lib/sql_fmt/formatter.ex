@@ -1,6 +1,6 @@
 defmodule SqlFmt.Formatter do
   @moduledoc """
-  Format SQL queries from `.sql` files.
+  Format SQL queries from `.sql` files or `~SQL` sigils.
 
   This is a `mix format` [plugin](https://hexdocs.pm/mix/main/Mix.Tasks.Format.html#module-plugins).
 
@@ -53,14 +53,29 @@ defmodule SqlFmt.Formatter do
   ## Formatting
 
   The formatter uses `SqlFmt.format_query/2` in order to format the input `SQL`
-  queries.
+  queries or inline `~SQL` sigils.
+
+  > #### Single line `~SQL` sigils {: .info}
+  >
+  > Notice that if an `~SQL` sigil with a single delimiter is used then this is
+  > respected and only the reserved keyowrds are capitalized. For example:
+  >
+  > ```elixir
+  > query = ~SQL"select * from users"
+  > ```
+  >
+  > would be formatted as:
+  >
+  > ```elixir
+  > query = ~SQL"SELECT * FROM users"
+  > ```
   """
   @behaviour Mix.Tasks.Format
 
   @impl Mix.Tasks.Format
   def features(opts) do
     extensions = get_in(opts, [:sql_fmt, :extensions]) || [".sql"]
-    [extensions: extensions]
+    [sigils: [:SQL], extensions: extensions]
   end
 
   @impl Mix.Tasks.Format
@@ -73,6 +88,24 @@ defmodule SqlFmt.Formatter do
 
     {:ok, formatted} = SqlFmt.format_query(source, formatter_opts)
 
+    # we need some special handling for the sigils:
+    #
+    # - If we are handling an SQL sigil and the opening delimiter is a single
+    # character we should not add a trailing line
+    # - If the sigil's optening delimiter is a single character we need
+    # to remove all newlines introduced by the formatter
+
+    formatted =
+      formatted
+      |> maybe_remove_newlines(opts[:sigil], opts[:opening_delimiter])
+      |> maybe_add_newline(opts[:sigil], opts[:opening_delimiter])
+
     formatted
   end
+
+  defp maybe_remove_newlines(query, :SQL, <<_>>), do: String.replace(query, ~r/\s+/, " ") |> String.trim()
+  defp maybe_remove_newlines(query, _, _), do: query
+
+  defp maybe_add_newline(query, :SQL, <<_, _, _>>), do: query <> "\n"
+  defp maybe_add_newline(query, _, _), do: query
 end
