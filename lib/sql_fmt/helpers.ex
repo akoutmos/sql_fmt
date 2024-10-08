@@ -1,6 +1,6 @@
 defmodule SqlFmt.Helpers do
-  @moduledoc """
-  The `~SQL` sigil.
+  @moduledoc ~S"""
+  This module contains the `~SQL` sigil implementation.
 
   You can wrap your inline sql queries with the `~SQL` sigil and the formatter
   will format them using the `SqlFmt.format_query/2` function.
