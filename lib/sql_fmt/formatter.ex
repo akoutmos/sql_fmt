@@ -1,4 +1,4 @@
-defmodule SqlFmt.Formatter do
+defmodule SqlFmt.MixFormatter do
   @moduledoc """
   Format SQL queries from `.sql` files or `~SQL` sigils.
 
@@ -11,7 +11,7 @@ defmodule SqlFmt.Formatter do
 
   ```elixir
   [
-    plugins: [SqlFmt.Formatter],
+    plugins: [SqlFmt.MixFormatter],
     inputs: ["**/*.sql"],
     # ...
   ]
@@ -95,12 +95,9 @@ defmodule SqlFmt.Formatter do
     # - If the sigil's optening delimiter is a single character we need
     # to remove all newlines introduced by the formatter
 
-    formatted =
-      formatted
-      |> maybe_remove_newlines(opts[:sigil], opts[:opening_delimiter])
-      |> maybe_add_newline(opts[:sigil], opts[:opening_delimiter])
-
     formatted
+    |> maybe_remove_newlines(opts[:sigil], opts[:opening_delimiter])
+    |> maybe_add_newline(opts[:sigil], opts[:opening_delimiter])
   end
 
   defp maybe_remove_newlines(query, :SQL, <<_>>), do: String.replace(query, ~r/\s+/, " ") |> String.trim()

@@ -9,8 +9,10 @@ defmodule SqlFmt.Helpers do
   @doc """
   Indicates that a string is an SQL query.
 
-  This is currently used only by the `SqlFmt.Formatter` `mix format` plugin
+  This is currently used only by the `SqlFmt.MixFormatter` `mix format` plugin
   for formatting inling `SQL` in your elixir code.
   """
-  def sigil_SQL(query, _modifiers), do: query
+  def sigil_SQL(query, _modifiers) do
+    query
+  end
 end

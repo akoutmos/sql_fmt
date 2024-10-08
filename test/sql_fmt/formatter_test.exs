@@ -1,11 +1,11 @@
-defmodule SqlFmt.FormatterTest do
+defmodule SqlFmt.MixFormatterTest do
   use ExUnit.Case, async: true
 
   alias Mix.Tasks.Format
 
   test "formats matching files", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter])
       sql_fixture("query.sql")
 
       Format.run(["query.sql"])
@@ -15,7 +15,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with :indent option set", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [indent: 4])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [indent: 4])
       sql_fixture("query.sql")
 
       Format.run(["query.sql"])
@@ -25,7 +25,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with :uppercase set to false", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [uppercase: false])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [uppercase: false])
       sql_fixture("query.sql")
 
       Format.run(["query.sql"])
@@ -35,7 +35,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with multiple queries", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter])
       content = "select * from users; select * from groups;"
       sql_fixture("query.sql", content)
 
@@ -54,7 +54,7 @@ defmodule SqlFmt.FormatterTest do
                """
 
       # with :lines-between-queries set to a different value
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [lines_between_queries: 2])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [lines_between_queries: 2])
       Format.run(["query.sql"])
 
       assert File.read!("query.sql") ==
@@ -74,13 +74,13 @@ defmodule SqlFmt.FormatterTest do
 
   test "with :ignore-case-convert set", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [ignore_case_convert: ["select", "where"]])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [ignore_case_convert: ["select", "where"]])
       sql_fixture("query.sql", "select * from users where age > 18;")
 
       Format.run(["query.sql"])
       assert File.read!("query.sql") == "select\n  *\nFROM\n  users\nwhere\n  age > 18;"
 
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [ignore_case_convert: ["select"]])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [ignore_case_convert: ["select"]])
       Format.run(["query.sql"])
       assert File.read!("query.sql") == "select\n  *\nFROM\n  users\nWHERE\n  age > 18;"
     end)
@@ -88,7 +88,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with sql path in formatter inputs", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], inputs: ["sql/**/*.sql"])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], inputs: ["sql/**/*.sql"])
       sql_fixture("sql/path_a/query.sql")
       sql_fixture("sql/path_a/query2.sql")
       sql_fixture("sql/path_b/query.sql")
@@ -104,7 +104,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with --check-formatted", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], inputs: ["*.sql"])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], inputs: ["*.sql"])
       sql_fixture("query.sql")
 
       assert_raise Mix.Error, ~r"mix format failed due to --check-formatted", fn ->
@@ -124,7 +124,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with different extensions", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [extensions: [".sqlite"]])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [extensions: [".sqlite"]])
       sql_fixture("query.sql")
       sql_fixture("query.sqlite")
 
@@ -136,7 +136,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with single-line ~SQL sigil", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [extensions: [".sqlite"]])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [extensions: [".sqlite"]])
 
       elixir_fixture("query.exs", """
       import SqlFmt.Helpers
@@ -156,7 +156,7 @@ defmodule SqlFmt.FormatterTest do
 
   test "with multi-line ~SQL sigil", context do
     in_tmp(context.test, fn ->
-      write_formatter_config(plugins: [SqlFmt.Formatter], sql_fmt: [extensions: [".sqlite"]])
+      write_formatter_config(plugins: [SqlFmt.MixFormatter], sql_fmt: [extensions: [".sqlite"]])
 
       elixir_fixture("query.exs", ~s'''
       import SqlFmt.Helpers
