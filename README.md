@@ -32,6 +32,7 @@
 
 - [Installation](#installation)
 - [Example Output](#example-output)
+- [Mix Formatter](#mix-formatter)
 - [Supporting SqlFmt](#supporting-sqlfmt)
 - [Attribution](#attribution)
 
@@ -43,7 +44,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sql_fmt, "~> 0.1.0"}
+    {:sql_fmt, "~> 0.2.0"}
   ]
 end
 ```
@@ -88,6 +89,23 @@ WHERE
 
 Be sure to checkout the HexDocs as you can also provide formatting options to the functions to tailor the output to your
 liking.
+
+## Mix Formatter
+
+SqlFmt also provides you with the `~SQL` sigil that can be used to format SQL via Mix Formatter plugin. To set up the
+Mix Formatter plugin, simply install this package and add update your `.formatter.exs` file as follows:
+
+```elixir
+[
+  plugins: [SqlFmt.MixFormatter],
+  inputs: ["**/*.sql"],
+  # ...
+]
+```
+
+With this configuration, the SqlFmt Mix Format plugin will now format all `~SQL` sigils and all files ending in `.sql`.
+This can be particularly useful in Ecto migrations where you have large `execute` statements and you want to make sure
+that your code is readable. Check out the `SqlFmt.MixFormatter` module docs for more information.
 
 ## Supporting SqlFmt
 

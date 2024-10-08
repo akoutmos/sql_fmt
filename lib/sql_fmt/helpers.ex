@@ -5,11 +5,12 @@ defmodule SqlFmt.Helpers do
   You can wrap your inline sql queries with the `~SQL` sigil and the formatter
   will format them using the `SqlFmt.format_query/2` function.
 
-  > #### Sigil Caveats {: .tip}
+  > #### Sigil Caveats {: .info}
   >
   > Sigils with capitalized letters do not interpolate strings. So your `~SQL`
   > queries must be complete queries without any `#{...}` entries as those will
-  > not be expanded [Elixir Docs](https://hexdocs.pm/elixir/1.12/Macro.html#module-custom-sigils).
+  > not be expanded. Take a look at the [Elixir Docs](https://hexdocs.pm/elixir/1.12/Macro.html#module-custom-sigils)
+  > for more information.
   """
 
   @doc """
