@@ -1,6 +1,6 @@
 [package]
 name = "sql_fmt_nif"
-version = "0.1.0"
+version = "0.2.0"
 authors = []
 edition = "2021"
 
