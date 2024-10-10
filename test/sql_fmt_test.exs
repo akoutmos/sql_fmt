@@ -2,6 +2,56 @@ defmodule SqlFmtTest do
   use ExUnit.Case
 
   describe "SqlFmt.format_query/2" do
+    test "should format the query with default formatting options even if special characters are present" do
+      query = """
+      SELECT
+      left <@ right,
+      left << right,
+      left >> right,
+      left &< right,
+      left &> right,
+      left -|- right,
+      @@ left,
+      @-@ left,
+      left <-> right,
+      left <<| right,
+      left |>> right,
+      left &<| right,
+      left |>& right,
+      left <^ right,
+      left >^ right,
+      ?- left,
+      left ?-| right,
+      left ?|| right,
+      left ~= right
+      """
+
+      assert {:ok, result} = query |> String.trim() |> SqlFmt.format_query()
+
+      assert String.trim("""
+             SELECT
+               left <@ right,
+               left << right,
+               left >> right,
+               left &< right,
+               left &> right,
+               left -|- right,
+               @@ left,
+               @-@ left,
+               left <-> right,
+               left <<| right,
+               left |>> right,
+               left &<| right,
+               left |>& right,
+               left <^ right,
+               left >^ right,
+               ?- left,
+               left ?-| right,
+               left ?|| right,
+               left ~= right
+             """) == result
+    end
+
     test "should format the query with default formatting options" do
       assert {:ok, result} = SqlFmt.format_query("select * from hello_world;")
 
@@ -36,6 +86,50 @@ defmodule SqlFmtTest do
   end
 
   describe "SqlFmt.format_query_with_params/2" do
+    test "should format the query with default formatting options even if special characters are present" do
+      query = """
+      SELECT
+      left <@ right,
+      left << right,
+      left >> right,
+      left &< right,
+      left &> right,
+      left -|- right,
+      @@ left,
+      @-@ left,
+      left <-> right,
+      left <<| right,
+      left |>> right,
+      left &<| right,
+      left |>& right,
+      left <^ right,
+      left >^ right,
+      left ~= ?
+      """
+
+      assert {:ok, result} = query |> String.trim() |> SqlFmt.format_query_with_params(["right"])
+
+      assert String.trim("""
+             SELECT
+               left <@ right,
+               left << right,
+               left >> right,
+               left &< right,
+               left &> right,
+               left -|- right,
+               @@ left,
+               @-@ left,
+               left <-> right,
+               left <<| right,
+               left |>> right,
+               left &<| right,
+               left |>& right,
+               left <^ right,
+               left >^ right,
+               left ~= right
+             """) == result
+    end
+
     test "should format the query with default formatting options" do
       assert {:ok, result} = SqlFmt.format_query_with_params("select * from hello_world where thing = ?;", ["1"])
 
