@@ -19,9 +19,7 @@ defmodule SqlFmt do
   def format_query(query, fmt_opts \\ []) do
     format_options = FormatOptions.new(fmt_opts)
 
-    query
-    |> Native.format(format_options)
-    |> maybe_clean_special_character_operators()
+    Native.format(query, format_options)
   end
 
   @doc """
@@ -39,38 +37,6 @@ defmodule SqlFmt do
   def format_query_with_params(query, query_params, fmt_opts \\ []) do
     format_options = FormatOptions.new(fmt_opts)
 
-    query
-    |> Native.format(query_params, format_options)
-    |> maybe_clean_special_character_operators()
-  end
-
-  # ---- Private helper functions ----
-
-  @special_character_sequence_regex ~r/(\+|\-|\*|\/|\<|\>|\=|\~|\!|\@|\#|\%|\^|\&|\||\`|\?)\s(\+|\-|\*|\/|\<|\>|\=|\~|\!|\@|\#|\%|\^|\&|\||\`|\?)/
-
-  # This is a work around the following bug in the Rust formatting
-  # library https://github.com/shssoichiro/sqlformat-rs/issues/52
-  #
-  # 63 Regex replacement passes has been chosen as it is the default max
-  # operator name as per the Postgres docs https://www.postgresql.org/docs/current/sql-createoperator.html.
-  # The function will break early if no more replacements need to occur though.
-  defp maybe_clean_special_character_operators({:ok, formatted_query}) do
-    post_processed_query =
-      1..63
-      |> Enum.reduce_while(formatted_query, fn _pass, acc ->
-        new_string = Regex.replace(@special_character_sequence_regex, acc, "\\g{1}\\g{2}")
-
-        if acc == new_string do
-          {:halt, new_string}
-        else
-          {:cont, new_string}
-        end
-      end)
-
-    {:ok, post_processed_query}
-  end
-
-  defp maybe_clean_special_character_operators(other) do
-    other
+    Native.format(query, query_params, format_options)
   end
 end
