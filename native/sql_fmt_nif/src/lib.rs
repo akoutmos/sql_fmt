@@ -45,10 +45,10 @@ fn format(sql_query: String, format_options: ElixirFormatOptions) -> StringResul
     let formatted_sql = sqlformat::format(sql_query.as_str(), &QueryParams::None, &options);
     let post_process_query = post_process_query(formatted_sql);
 
-    return StringResultTuple {
+    StringResultTuple {
         lhs: atoms::ok(),
-        rhs: post_process_query.to_string(),
-    };
+        rhs: post_process_query,
+    }
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
@@ -71,10 +71,10 @@ fn format(
     );
     let post_process_query = post_process_query(formatted_sql);
 
-    return StringResultTuple {
+    StringResultTuple {
         lhs: atoms::ok(),
-        rhs: post_process_query.to_string(),
-    };
+        rhs: post_process_query,
+    }
 }
 
 // ---- Private helper functions ----
