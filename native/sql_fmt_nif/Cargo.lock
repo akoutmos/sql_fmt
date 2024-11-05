@@ -40,12 +40,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "log"
-version = "0.4.22"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
-
-[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -157,7 +151,6 @@ version = "0.3.0"
 dependencies = [
  "rustler",
  "sqlformat",
- "sqlparser",
 ]
 
 [[package]]
@@ -170,15 +163,6 @@ dependencies = [
  "once_cell",
  "regex",
  "unicode_categories",
-]
-
-[[package]]
-name = "sqlparser"
-version = "0.51.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5fe11944a61da0da3f592e19a45ebe5ab92dc14a779907ff1f08fbb797bfefc7"
-dependencies = [
- "log",
 ]
 
 [[package]]

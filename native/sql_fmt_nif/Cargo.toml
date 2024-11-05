@@ -12,7 +12,6 @@ crate-type = ["cdylib"]
 [dependencies]
 rustler = "0.35.0"
 sqlformat = "0.3.1"
-sqlparser = "0.51.0"
 
 [features]
 default = ["nif_version_2_15"]
