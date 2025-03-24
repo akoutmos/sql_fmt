@@ -44,7 +44,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sql_fmt, "~> 0.3.0"}
+    {:sql_fmt, "~> 0.4.0"}
   ]
 end
 ```
