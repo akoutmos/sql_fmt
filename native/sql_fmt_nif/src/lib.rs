@@ -2,7 +2,7 @@ use rustler::Atom;
 use rustler::NifStruct;
 use rustler::NifTuple;
 
-use sqlformat::{FormatOptions, Indent, QueryParams};
+use sqruff_lib::api::simple;
 
 mod atoms {
     rustler::atoms! {
@@ -27,44 +27,12 @@ pub struct ElixirFormatOptions<'a> {
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn format(sql_query: String, format_options: ElixirFormatOptions) -> StringResultTuple {
-    let options = FormatOptions {
-        indent: Indent::Spaces(format_options.indent),
-        uppercase: Some(format_options.uppercase),
-        lines_between_queries: format_options.lines_between_queries,
-        ignore_case_convert: Some(format_options.ignore_case_convert),
-    };
-
-    let formatted_sql = sqlformat::format(sql_query.as_str(), &QueryParams::None, &options);
+fn format(sql_query: &str, format_options: ElixirFormatOptions) -> StringResultTuple {
+    let formatted_sql = simple::fix(sql_query);
 
     return StringResultTuple {
         lhs: atoms::ok(),
-        rhs: formatted_sql.to_string(),
-    };
-}
-
-#[rustler::nif(schedule = "DirtyCpu")]
-fn format(
-    sql_query: String,
-    query_params: Vec<String>,
-    format_options: ElixirFormatOptions,
-) -> StringResultTuple {
-    let options = FormatOptions {
-        indent: Indent::Spaces(format_options.indent),
-        uppercase: Some(format_options.uppercase),
-        lines_between_queries: format_options.lines_between_queries,
-        ignore_case_convert: Some(format_options.ignore_case_convert),
-    };
-
-    let formatted_sql = sqlformat::format(
-        sql_query.as_str(),
-        &QueryParams::Indexed(query_params),
-        &options,
-    );
-
-    return StringResultTuple {
-        lhs: atoms::ok(),
-        rhs: formatted_sql.to_string(),
+        rhs: formatted_sql,
     };
 }
 
