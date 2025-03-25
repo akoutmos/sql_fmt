@@ -29,13 +29,13 @@ jobs:
               os: ubuntu-20.04,
               use-cross: true,
             }
-          - { target: aarch64-apple-darwin, os: macos-12 }
+          - { target: aarch64-apple-darwin, os: macos-13 }
           - {
               target: riscv64gc-unknown-linux-gnu,
               os: ubuntu-20.04,
               use-cross: true,
             }
-          - { target: x86_64-apple-darwin, os: macos-12 }
+          - { target: x86_64-apple-darwin, os: macos-13 }
           - { target: x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
           - {
               target: x86_64-unknown-linux-musl,
