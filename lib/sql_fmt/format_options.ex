@@ -16,19 +16,43 @@ defmodule SqlFmt.FormatOptions do
   * `:ignore_case_convert` – Configures whether certain strings should
     not be case converted.
     Defaults to `[]`.
+
+  * `:dialect` -
+
+  * `:inline` -
+
+  * `:joins_as_top_level` -
+
+  * `:max_inline_block` -
+
+  * `:max_inline_arguments` -
+
+  * `:max_inline_top_level` -
   """
 
   defstruct indent: 2,
             uppercase: true,
             lines_between_queries: 1,
-            ignore_case_convert: []
+            ignore_case_convert: [],
+            dialect: :postgres,
+            inline: false,
+            joins_as_top_level: false,
+            max_inline_block: 50,
+            max_inline_arguments: nil,
+            max_inline_top_level: nil
 
   @typedoc "The available formatting options."
   @type t :: %__MODULE__{
           indent: non_neg_integer(),
           uppercase: boolean(),
           lines_between_queries: non_neg_integer(),
-          ignore_case_convert: list(String.t())
+          ignore_case_convert: list(String.t()),
+          dialect: :generic | :postgres | :sql_server,
+          inline: boolean,
+          joins_as_top_level: boolean(),
+          max_inline_block: non_neg_integer(),
+          max_inline_arguments: non_neg_integer() | nil,
+          max_inline_top_level: non_neg_integer | nil
         }
 
   @doc """

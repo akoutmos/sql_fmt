@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-3-15
+
+### Fixed
+
+- Updated to a newer version of `sqlformat-rs` and updated `SqlFmt.FormatOptions` to support new options.
+
 ## [0.4.0] - 2025-3-24
 
 ### Fixed
