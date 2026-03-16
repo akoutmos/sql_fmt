@@ -17,17 +17,27 @@ defmodule SqlFmt.FormatOptions do
     not be case converted.
     Defaults to `[]`.
 
-  * `:dialect` -
+  * `:dialect` - Tells what dialect of SQL to use for formatting.
+    Defaults to `:postgres`.
 
-  * `:inline` -
+  * `:inline` - Directs the SQL formatter whether to keep the query
+    within a single line.
+    Defaults to `false`.
 
-  * `:joins_as_top_level` -
+  * `:joins_as_top_level` - Consider any JOIN statement as a top level
+    keyword instead of a reserved keyword.
+    Defaults to `false`.
 
-  * `:max_inline_block` -
+  * `:max_inline_block` - Maximum length of an inline block.
+    Defaults to `50`.
 
-  * `:max_inline_arguments` -
+  * `:max_inline_arguments` - Maximum length of inline arguments. If `nil`
+    then every argument will be placed on a separate line.
+    Defaults to `nil`.
 
-  * `:max_inline_top_level` -
+  * `:max_inline_top_level` - Inline the argument at the top level if
+    they would fit a line of this length.
+    Defaults to `nil`.
   """
 
   defstruct indent: 2,

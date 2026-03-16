@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.0] - 2026-3-15
 
-### Fixed
+### Added
+
+- Added support for Ecto fragments [original work was done here](https://github.com/akoutmos/sql_fmt/pull/9) by @frankdugan3
+
+### Changed
 
 - Updated to a newer version of `sqlformat-rs` and updated `SqlFmt.FormatOptions` to support new options.
 
