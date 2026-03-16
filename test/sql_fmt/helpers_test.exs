@@ -1,5 +1,7 @@
 defmodule SqlFmt.HelpersTest do
   use ExUnit.Case
+
+  import Ecto.Query
   import SqlFmt.Helpers
 
   test "sigil_SQL" do
@@ -13,5 +15,8 @@ defmodule SqlFmt.HelpersTest do
              SELECT *
              FROM users
              """
+
+    assert from("my_table", select: fragment(~SQL"? > ?", 2, 1))
+    assert from("my_table", select: fragment(~SQL"now()"))
   end
 end

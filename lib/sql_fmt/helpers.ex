@@ -19,7 +19,6 @@ defmodule SqlFmt.Helpers do
   This is currently used only by the `SqlFmt.MixFormatter` `mix format` plugin
   for formatting inling `SQL` in your elixir code.
   """
-  def sigil_SQL(query, _modifiers) do
-    query
-  end
+  defmacro sigil_SQL(query, _modifiers)
+  defmacro sigil_SQL({:<<>>, _, [binary]}, []) when is_binary(binary), do: binary
 end
